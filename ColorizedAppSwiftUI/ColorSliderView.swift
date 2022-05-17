@@ -26,11 +26,12 @@ struct ColorSliderView: View {
                 .tint(color)
             .onChange(of: sliderValue) { newValue in textValue = "\(lround(newValue))"
             }
-            TextField("0-255", text: $textValue)
+            TextField("0-255", text: $textValue) { _ in checkNumber()
+            }
             .frame(width: 60)
             .keyboardType(.decimalPad)
             .alert("Wrong format", isPresented: $showAlert, actions: {}) {
-                Text("Please enter value from 0 to 255")
+                Text("Enter a number from 0 to 255")
             }
         }
         .onAppear {
@@ -39,13 +40,21 @@ struct ColorSliderView: View {
     }
 }
 
-
-
-
-
 struct ColorSliderView_Previews: PreviewProvider {
     static var previews: some View {
         ColorSliderView(sliderValue: .constant(100), color: .red)
+    }
+}
+
+extension ColorSliderView {
+    private func checkNumber() {
+        if let value = Int(textValue), (0...255).contains(value) {
+            self.sliderValue = Double(value)
+            return
+        }
+        showAlert.toggle()
+        sliderValue = 12
+        textValue = "0"
     }
 }
 

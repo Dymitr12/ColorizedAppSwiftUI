@@ -16,17 +16,21 @@ struct ContentView: View {
     @FocusState var isInputActive: Bool
     
     var body: some View {
-        //Color(.black).ignoresSafeArea()
-        VStack(spacing: 40) {
+        NavigationView {
+            ZStack {
+                Color(.systemCyan).ignoresSafeArea()
+        VStack(spacing: 20) {
             ColorView(redColor: red, greenColor: green, blueColor: blue)
             ColorSliderView(sliderValue: $red, color: .red)
             ColorSliderView(sliderValue: $green, color: .green)
             ColorSliderView(sliderValue: $blue, color: .blue)
+            Spacer()
         }
         .padding()
         .focused($isInputActive)
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
+               // Button(action: , label: { Image(systemName: "chevron.up") } )
                 Spacer()
                 Button("Done") {
                     isInputActive = false
@@ -35,10 +39,17 @@ struct ContentView: View {
             }
         }
     }
+        }
+    }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+
+
+
+
